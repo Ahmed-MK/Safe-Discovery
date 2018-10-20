@@ -8,6 +8,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -18,11 +19,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Sensor senAccelerometer;
     private long lastUpdate = 0,vibrations = 0;
     private float last_x, last_y, last_z;
-    Button start = findViewById(R.id.Start);
     private static final int SHAKE_THRESHOLD = 550;
-    private void check(){
-        final int x = 10;
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //Init for the sensors services
         senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        Button start = findViewById(R.id.Start);
         senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         speedOfVibration = findViewById(R.id.speedOfVibration);
         routeState = findViewById(R.id.routeState);
@@ -75,7 +74,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         }
     }
-
+    public void ResetCounters(View view){
+        vibrations = 0;
+        lastUpdate = 0;
+        vibrationsCount.setText("Vibrations Counter : " + vibrations);
+        lastVibrationSpeed.setText("Last Vibration Speed : 0");
+    }
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
